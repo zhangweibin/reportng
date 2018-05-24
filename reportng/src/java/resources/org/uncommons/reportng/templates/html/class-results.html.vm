@@ -38,7 +38,7 @@
     #end
 
     #if ($utils.hasArguments($testResult))
-      <i>$messages.getString("methodArguments"): </i><span class="arguments">$utils.getArguments($testResult)</span><br />
+      <i>Case: </i><span class="arguments">$utils.getArguments($testResult).split(",")[0]</span><br />
     #end
 
     ## Show logger output for the test.
@@ -57,7 +57,10 @@
 
 
     #if ($testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions()))
-    <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString("clickToExpandCollapse")"><b>$utils.escapeHTMLString( $testResult.throwable.toString() )</b></a><br />
+    <b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[1] )</b><br />
+    <a href=$testResult.throwable.toString().split("\n")[2]  target="_blank" ><b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[2] )</b></a><br />
+    <b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[3] )</b><br />
+    <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString("clickToExpandCollapse")"><b>CallStack</b></a><br />
     <div class="stackTrace" id="exception-$id">
       #foreach ($element in $testResult.throwable.stackTrace)
         $utils.escapeHTMLString( $element.toString() )<br />
