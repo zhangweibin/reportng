@@ -58,7 +58,7 @@
 
     #if ($testResult.throwable && ( $testResult.status == 2 || $meta.shouldShowExpectedExceptions()))
     <b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[1] )</b><br />
-    <a href=$testResult.throwable.toString().split("\n")[2]  target="_blank" ><b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[2] )</b></a><br />
+    <span id=$utils.getArguments($testResult).split(",")[0] style="display:none" ><a href=$testResult.throwable.toString().split("\n")[2]  target="_blank" ><b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[2] )</b></a><br /></span>
     <b>$utils.escapeHTMLString( $testResult.throwable.toString().split("\n")[3] )</b><br />
     <a href="javascript:toggleElement('exception-$id', 'block')" title="$messages.getString("clickToExpandCollapse")"><b>CallStack</b></a><br />
     <div class="stackTrace" id="exception-$id">
@@ -80,4 +80,10 @@
     #set ($id = $id + 1)
   </td>
 </tr>
+
+<script>
+if($testResult.throwable.toString().split("\n")[2].contains("http")){
+document.getElementById($utils.getArguments($testResult).split(",")[0]).style.display="inline";
+}
+</script>
 #end
